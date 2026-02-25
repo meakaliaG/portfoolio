@@ -21,6 +21,10 @@ const RedisStore = require('connect-redis').RedisStore;
 const redis = require('redis');
 const router = require('./router.js');
 
+// import {useRef} from "react";
+// import gsap from "gsap"; // core library
+// import { useGSAP } from "@gsap/react"; // hook
+
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
 const dbURI = process.env.MOGODB_URI || 'mongodb://localhost/mgPortfolio';
