@@ -1,0 +1,113 @@
+:root {
+    --crimson:   #550101;
+    --deep-red:  #790B0B;
+    --blush:     #FFE5E4;
+    --ink:       #1a0505;
+    --panel-hover-opacity: 0.12;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'DM Mono', monospace;
+    background: var(--deep-red);
+    overflow: hidden;
+    height: 100vh;
+    cursor: default;
+}
+
+.portfolio-root {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* ── SVG canvas ── */
+.bg-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* ── Clickable panel overlays ── */
+.panel-link {
+    position: absolute;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    transition: filter 0.35s ease;
+}
+.panel-link:hover .panel-fill { filter: brightness(0.88); }
+.panel-link:hover .panel-label { opacity: 1; transform: translateY(0); }
+.panel-fill { transition: filter 0.35s ease; }
+
+.panel-label {
+    position: absolute;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    letter-spacing: 0.12em;
+    color: var(--crimson);
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+/* Label positions */
+#label-about   { top: 22%; right: 12%; }
+#label-work    { top: 50%; right: 5%; transform: translateX(0) translateY(6px); }
+#label-contact { bottom: 16%; right: 12%; }
+#label-nav     { top: 45%; left: 3%; }
+
+/* ── Nav panel links (stacked vertically in left panel) ── */
+.nav-links {
+    position: absolute;
+    left: 2.5%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    z-index: 10;
+}
+.nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--crimson);
+    text-decoration: none;
+    transition: color 0.2s ease, letter-spacing 0.2s ease;
+    writing-mode: horizontal-tb;
+}
+.nav-links a:hover {
+    color: var(--deep-red);
+    letter-spacing: 0.28em;
+}
+
+/* ── Center circle monogram ── */
+.monogram {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    /* visually centered on circle at cx=405 cy=512 r=138 in 1440×1024 space */
+    /* We'll use SVG text instead for perfect placement */
+    pointer-events: none;
+}
+
+/* ── Page-load stagger animation ── */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.panel-link { animation: fadeUp 0.7s ease both; }
+.panel-link:nth-child(1) { animation-delay: 0.1s; }
+.panel-link:nth-child(2) { animation-delay: 0.25s; }
+.panel-link:nth-child(3) { animation-delay: 0.4s; }
+.panel-link:nth-child(4) { animation-delay: 0.55s; }
+.nav-links  { animation: fadeUp 0.7s 0.6s ease both; }

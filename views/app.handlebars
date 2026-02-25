@@ -3,73 +3,232 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meakalia Gilman's portfolio</title>
+    <title>Meakalia Gilman — Portfolio</title>
+    <link rel="stylesheet" type="text/css" href="/assets/app-style.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+    {{!-- <style>
+        :root {
+            --crimson:   #550101;
+            --deep-red:  #790B0B;
+            --blush:     #FFE5E4;
+            --ink:       #1a0505;
+            --panel-hover-opacity: 0.12;
+        }
 
-    {{!-- <link rel="shortcut icon" href="/assets/img/favicon.png"/> --}}
-    <link rel="stylesheet" type="text/css" href="/assets/style.css"/>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'DM Mono', monospace;
+            background: var(--deep-red);
+            overflow: hidden;
+            height: 100vh;
+            cursor: default;
+        }
+
+        .portfolio-root {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* ── SVG canvas ── */
+        .bg-svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ── Clickable panel overlays ── */
+        .panel-link {
+            position: absolute;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            transition: filter 0.35s ease;
+        }
+        .panel-link:hover .panel-fill { filter: brightness(0.88); }
+        .panel-link:hover .panel-label { opacity: 1; transform: translateY(0); }
+        .panel-fill { transition: filter 0.35s ease; }
+
+        .panel-label {
+            position: absolute;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-style: italic;
+            font-size: clamp(1rem, 2vw, 1.4rem);
+            letter-spacing: 0.12em;
+            color: var(--crimson);
+            opacity: 0;
+            transform: translateY(6px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        /* Label positions */
+        #label-about   { top: 22%; right: 12%; }
+        #label-work    { top: 50%; right: 5%; transform: translateX(0) translateY(6px); }
+        #label-contact { bottom: 16%; right: 12%; }
+        #label-nav     { top: 45%; left: 3%; }
+
+        /* ── Nav panel links (stacked vertically in left panel) ── */
+        .nav-links {
+            position: absolute;
+            left: 2.5%;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 1.4rem;
+            z-index: 10;
+        }
+        .nav-links a {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--crimson);
+            text-decoration: none;
+            transition: color 0.2s ease, letter-spacing 0.2s ease;
+            writing-mode: horizontal-tb;
+        }
+        .nav-links a:hover {
+            color: var(--deep-red);
+            letter-spacing: 0.28em;
+        }
+
+        /* ── Center circle monogram ── */
+        .monogram {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            /* visually centered on circle at cx=405 cy=512 r=138 in 1440×1024 space */
+            /* We'll use SVG text instead for perfect placement */
+            pointer-events: none;
+        }
+
+        /* ── Page-load stagger animation ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .panel-link { animation: fadeUp 0.7s ease both; }
+        .panel-link:nth-child(1) { animation-delay: 0.1s; }
+        .panel-link:nth-child(2) { animation-delay: 0.25s; }
+        .panel-link:nth-child(3) { animation-delay: 0.4s; }
+        .panel-link:nth-child(4) { animation-delay: 0.55s; }
+        .nav-links  { animation: fadeUp 0.7s 0.6s ease both; }
+    </style> --}}
 </head>
 <body>
-    <div class="page-wrapper">
-        <svg class="bg-svg" viewBox="0 0 1440 1024" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <clipPath id="clip-canvas">
-      <rect width="1440" height="1024"/>
-    </clipPath>
-    <clipPath id="clip-about-panel">
-      <path d="M495.706 386.301C470.204 367.866 438.872 357 405 357C399.94 357 394.936 357.245 390 357.719V0.0683594H1430L495.706 386.301Z"/>
-    </clipPath>
-    <clipPath id="clip-work-panel">
-      <path d="M1440 1014L507.27 628.471C539.595 600.064 560 558.416 560 512C560 464.423 538.563 421.855 504.823 393.422L1440 10V1014Z"/>
-    </clipPath>
-    <clipPath id="clip-contact-panel">
-      <path d="M1430.48 1024H390.483V666.326C395.263 666.77 400.105 667 405 667C438.923 667 470.3 656.1 495.822 637.614L1430.48 1024Z"/>
-    </clipPath>
-  </defs>
+<div class="portfolio-root">
 
-  <g clip-path="url(#clip-canvas)">
-    {{!-- Background --}}
-    <rect width="1440" height="1024" fill="#790B0B"/>
+    <svg class="bg-svg" viewBox="0 0 1440 1024" preserveAspectRatio="xMidYMid slice"
+         fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <clipPath id="clip-canvas">
+                <rect width="1440" height="1024"/>
+            </clipPath>
+            <clipPath id="clip-about-panel">
+                <path d="M495.706 386.301C470.204 367.866 438.872 357 405 357C399.94 357 394.936 357.245 390 357.719V0.0683594H1430L495.706 386.301Z"/>
+            </clipPath>
+            <clipPath id="clip-work-panel">
+                <path d="M1440 1014L507.27 628.471C539.595 600.064 560 558.416 560 512C560 464.423 538.563 421.855 504.823 393.422L1440 10V1014Z"/>
+            </clipPath>
+            <clipPath id="clip-contact-panel">
+                <path d="M1430.48 1024H390.483V666.326C395.263 666.77 400.105 667 405 667C438.923 667 470.3 656.1 495.822 637.614L1430.48 1024Z"/>
+            </clipPath>
+        </defs>
 
-    {{!-- About Panel --}}
-    <path d="M495.706 386.301C470.204 367.866 438.872 357 405 357C399.94 357 394.936 357.245 390 357.719V0.0683594H1430L495.706 386.301Z" fill="#FFE5E4" preserveAspectRatio="xMidYMid slice"/>
-    <image
-      href="/assets/media/text/about-text.png"
-      x="350" y="-10"
-      width="600" height="250"
-      preserveAspectRatio="xMidYMid meet"
-      clip-path="url(#clip-about-panel)"
-      preserveAspectRatio="xMidYMid slice"
-    />
+        <g clip-path="url(#clip-canvas)">
+            <!-- Background -->
+            <rect width="1440" height="1024" fill="#790B0B"/>
 
-    {{!-- Work Panel --}}
-    <path d="M1440 1014L507.27 628.471C539.595 600.064 560 558.416 560 512C560 464.423 538.563 421.855 504.823 393.422L1440 10V1014Z" fill="#FFE5E4"/>
-    <image
-      href="/assets/media/text/work-text.png"
-      x="450" y="315"
-      width="800" height="350"
-      preserveAspectRatio="xMidYMid meet"
-      clip-path="url(#clip-work-panel)"
-    />
+            <!-- About Panel -->
+            <a href="/about" style="cursor:pointer;">
+                <path class="panel-fill" id="about-path"
+                    d="M495.706 386.301C470.204 367.866 438.872 357 405 357C399.94 357 394.936 357.245 390 357.719V0.0683594H1430L495.706 386.301Z"
+                    fill="#FFE5E4" style="transition: fill 0.3s ease; cursor:pointer;"
+                    onmouseover="this.setAttribute('fill','#f5d4d3')"
+                    onmouseout="this.setAttribute('fill','#FFE5E4')"/>
+                <text x="920" y="130" font-family="'Cormorant Garamond', serif"
+                    font-size="28" font-style="italic" font-weight="300"
+                    fill="#550101" opacity="0" letter-spacing="6"
+                    id="about-label"
+                    style="transition: opacity 0.3s ease; pointer-events:none;">about</text>
+            </a>
 
-    {{!-- Contact Panel --}}
-    <path d="M1430.48 1024H390.483V666.326C395.263 666.77 400.105 667 405 667C438.923 667 470.3 656.1 495.822 637.614L1430.48 1024Z" fill="#FFE5E4"/>
-    <image
-      href="/assets/media/text/contact-text.png"
-      x="350" y="750"
-      width="700" height="275"
-      preserveAspectRatio="xMidYMid meet"
-      clip-path="url(#clip-contact-panel)"
-    />
+            <!-- Work Panel -->
+            <a href="/work" style="cursor:pointer;">
+                <path class="panel-fill" id="work-path"
+                    d="M1440 1014L507.27 628.471C539.595 600.064 560 558.416 560 512C560 464.423 538.563 421.855 504.823 393.422L1440 10V1014Z"
+                    fill="#FFE5E4" style="transition: fill 0.3s ease; cursor:pointer;"
+                    onmouseover="this.setAttribute('fill','#f5d4d3')"
+                    onmouseout="this.setAttribute('fill','#FFE5E4')"/>
+                <text x="1100" y="512" font-family="'Cormorant Garamond', serif"
+                    font-size="28" font-style="italic" font-weight="300"
+                    fill="#550101" opacity="0" letter-spacing="6" dominant-baseline="middle"
+                    id="work-label"
+                    style="transition: opacity 0.3s ease; pointer-events:none;">work</text>
+            </a>
 
-    {{!-- Nav Panel --}}
-    <path d="M379.5 359.008C305.783 370.962 249.5 434.907 249.5 512C249.5 589.093 305.783 653.037 379.5 664.991V1024H-0.5V0H379.5V359.008Z" fill="#FFE5E4"/>
-    
-    {{!-- Logo Circle --}}
-    <circle cx="405" cy="512" r="138" fill="#550101"/>
+            <!-- Contact Panel -->
+            <a href="/contact" style="cursor:pointer;">
+                <path class="panel-fill" id="contact-path"
+                    d="M1430.48 1024H390.483V666.326C395.263 666.77 400.105 667 405 667C438.923 667 470.3 656.1 495.822 637.614L1430.48 1024Z"
+                    fill="#FFE5E4" style="transition: fill 0.3s ease; cursor:pointer;"
+                    onmouseover="this.setAttribute('fill','#f5d4d3')"
+                    onmouseout="this.setAttribute('fill','#FFE5E4')"/>
+                <text x="920" y="900" font-family="'Cormorant Garamond', serif"
+                    font-size="28" font-style="italic" font-weight="300"
+                    fill="#550101" opacity="0" letter-spacing="6"
+                    id="contact-label"
+                    style="transition: opacity 0.3s ease; pointer-events:none;">contact</text>
+            </a>
 
-  </g>
-</svg>
+            <!-- Nav Panel (left) — not a link itself, contains nav items via HTML overlay -->
+            <path d="M379.5 359.008C305.783 370.962 249.5 434.907 249.5 512C249.5 589.093 305.783 653.037 379.5 664.991V1024H-0.5V0H379.5V359.008Z"
+                fill="#FFE5E4"/>
 
-    </div>
+            <!-- Center Circle -->
+            <circle cx="405" cy="512" r="138" fill="#550101"/>
+
+            <!-- Monogram in circle -->
+            <text x="405" y="500" text-anchor="middle" dominant-baseline="middle"
+                font-family="'Cormorant Garamond', serif" font-size="52" font-weight="300"
+                fill="#FFE5E4" letter-spacing="4">MG</text>
+            <text x="405" y="545" text-anchor="middle" dominant-baseline="middle"
+                font-family="'DM Mono', monospace" font-size="9" font-weight="300"
+                fill="#FFE5E4" letter-spacing="3" opacity="0.7">PORTFOLIO</text>
+        </g>
+    </svg>
+
+    <!-- HTML overlay for nav links in left panel -->
+    <nav class="nav-links">
+        <a href="/about">About</a>
+        <a href="/work">Work</a>
+        <a href="/contact">Contact</a>
+    </nav>
+
+</div>
+
+<script>
+    // Hover label reveal for SVG panels
+    const panels = [
+        { path: 'about-path',   label: 'about-label' },
+        { path: 'work-path',    label: 'work-label' },
+        { path: 'contact-path', label: 'contact-label' },
+    ];
+    panels.forEach(({ path, label }) => {
+        const p = document.getElementById(path);
+        const l = document.getElementById(label);
+        if (!p || !l) return;
+        p.parentElement.addEventListener('mouseenter', () => { l.setAttribute('opacity', '1'); });
+        p.parentElement.addEventListener('mouseleave', () => { l.setAttribute('opacity', '0'); });
+    });
+</script>
 </body>
 </html>

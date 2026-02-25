@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work — Meakalia Gilman</title>
+    <link rel="stylesheet" type="text/css" href="/assets/work-style.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+    {{!-- <style>
+        :root {
+            --crimson:  #550101;
+            --deep-red: #790B0B;
+            --blush:    #FFE5E4;
+            --ink:      #1a0505;
+            --card-bg:  #fff8f7;
+            --border:   rgba(85,1,1,0.15);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            height: 100%;
+            font-family: 'DM Mono', monospace;
+            background: var(--blush);
+            color: var(--ink);
+        }
+
+        /* ── Layout ── */
+        .page {
+            min-height: 100vh;
+            display: grid;
+            grid-template-rows: auto 1fr;
+        }
+
+        /* ── Header ── */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2rem 3rem;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: var(--blush);
+            z-index: 100;
+            animation: slideDown 0.6s ease both;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo-link {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-style: italic;
+            font-weight: 300;
+            color: var(--crimson);
+            text-decoration: none;
+            letter-spacing: 0.08em;
+        }
+        .logo-link:hover { opacity: 0.7; }
+
+        nav a {
+            font-size: 0.65rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--crimson);
+            text-decoration: none;
+            margin-left: 2.5rem;
+            transition: opacity 0.2s;
+        }
+        nav a:hover, nav a.active { opacity: 0.5; }
+
+        /* ── Hero ── */
+        .hero {
+            padding: 5rem 3rem 2rem;
+            animation: fadeUp 0.7s 0.2s ease both;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3rem, 7vw, 6rem);
+            font-weight: 300;
+            line-height: 0.95;
+            color: var(--crimson);
+            letter-spacing: -0.01em;
+        }
+        .hero h1 em {
+            font-style: italic;
+            display: block;
+        }
+        .hero p {
+            margin-top: 1.5rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--deep-red);
+            opacity: 0.6;
+        }
+
+        /* ── Filters ── */
+        .filters {
+            display: flex;
+            gap: 0.75rem;
+            padding: 2rem 3rem 0;
+            flex-wrap: wrap;
+            animation: fadeUp 0.7s 0.35s ease both;
+        }
+        .filter-btn {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.62rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            padding: 0.45rem 1.1rem;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--crimson);
+            cursor: pointer;
+            border-radius: 2px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--crimson);
+            color: var(--blush);
+        }
+
+        /* ── Project Grid ── */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.5px;
+            padding: 2rem 3rem 4rem;
+            margin-top: 2rem;
+            animation: fadeUp 0.7s 0.5s ease both;
+        }
+
+        /* ── Project Card ── */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(85,1,1,0.12);
+            z-index: 2;
+        }
+        .card:hover .card-arrow { opacity: 1; transform: translate(0, 0); }
+        .card:hover .card-thumb-overlay { opacity: 1; }
+
+        /* Thumbnail area */
+        .card-thumb {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: var(--deep-red);
+            position: relative;
+            overflow: hidden;
+        }
+        .card-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            opacity: 0.85;
+            transition: opacity 0.35s, transform 0.5s ease;
+        }
+        .card:hover .card-thumb img { opacity: 1; transform: scale(1.03); }
+
+        .card-thumb-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(85,1,1,0.5) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.35s;
+        }
+
+        /* Type badge */
+        .card-type {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-size: 0.55rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            padding: 0.3rem 0.65rem;
+            border-radius: 2px;
+            font-family: 'DM Mono', monospace;
+        }
+        .card-type.webapp { background: var(--crimson); color: var(--blush); }
+        .card-type.model3d { background: var(--deep-red); color: var(--blush); }
+
+        /* Placeholder thumb (no image) */
+        .card-thumb.placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-thumb.placeholder .thumb-label {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-style: italic;
+            color: rgba(255,229,228,0.35);
+            letter-spacing: 0.1em;
+        }
+
+        /* Card body */
+        .card-body {
+            padding: 1.5rem 1.5rem 1.8rem;
+        }
+        .card-meta {
+            font-size: 0.6rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--deep-red);
+            opacity: 0.55;
+            margin-bottom: 0.6rem;
+        }
+        .card-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--crimson);
+            line-height: 1.2;
+            margin-bottom: 0.6rem;
+        }
+        .card-desc {
+            font-size: 0.65rem;
+            line-height: 1.8;
+            color: var(--ink);
+            opacity: 0.6;
+            letter-spacing: 0.03em;
+        }
+        .card-tags {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+        .card-tag {
+            font-size: 0.55rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 0.2rem 0.5rem;
+            border: 1px solid var(--border);
+            color: var(--crimson);
+            border-radius: 2px;
+        }
+
+        .card-arrow {
+            position: absolute;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            font-size: 1.1rem;
+            color: var(--crimson);
+            opacity: 0;
+            transform: translate(-4px, 4px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        /* ── Hidden state for filter ── */
+        .card.hidden { display: none; }
+
+        /* ── Empty state ── */
+        .empty-state {
+            grid-column: 1/-1;
+            padding: 4rem;
+            text-align: center;
+            display: none;
+        }
+        .empty-state.visible { display: block; }
+        .empty-state p {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.4rem;
+            color: var(--crimson);
+            opacity: 0.4;
+        }
+
+        /* ── Back to top ── */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        footer span {
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--crimson);
+            opacity: 0.4;
+        }
+        .back-top {
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--crimson);
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: opacity 0.2s;
+        }
+        .back-top:hover { opacity: 0.5; }
+    </style> --}}
+</head>
+<body>
+<div class="page">
+
+    <header>
+        <a class="logo-link" href="/">Meakalia Gilman</a>
+        <nav>
+            <a href="/about">About</a>
+            <a href="/work" class="active">Work</a>
+            <a href="/contact">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Selected<em>Work.</em></h1>
+            <p>Web apps &amp; interactive 3D</p>
+        </section>
+
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="webapp">Web Apps</button>
+            <button class="filter-btn" data-filter="model3d">3D Models</button>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             PROJECT CARDS — edit / duplicate as needed.
+             data-type: "webapp" | "model3d"
+             href on the <a> wrapping: /project/YOUR-SLUG
+        ════════════════════════════════════════════════ -->
+        <div class="grid" id="project-grid">
+
+            <!-- Example: Web App card -->
+            <a class="card" data-type="webapp" href="/project/example-webapp">
+                <div class="card-thumb placeholder">
+                    <span class="thumb-label">webapp</span>
+                    <span class="card-type webapp">Web App</span>
+                </div>
+                <div class="card-body">
+                    <div class="card-meta">2024 · Interactive</div>
+                    <div class="card-title">Example Web App</div>
+                    <div class="card-desc">A short description of what this project does and why it's interesting. Replace with your real project.</div>
+                    <div class="card-tags">
+                        <span class="card-tag">React</span>
+                        <span class="card-tag">Node</span>
+                        <span class="card-tag">CSS</span>
+                    </div>
+                </div>
+                <span class="card-arrow">→</span>
+            </a>
+
+            <!-- Example: 3D Model card -->
+            <a class="card" data-type="model3d" href="/project/example-3d">
+                <div class="card-thumb placeholder">
+                    <span class="thumb-label">3D</span>
+                    <span class="card-type model3d">3D Model</span>
+                </div>
+                <div class="card-body">
+                    <div class="card-meta">2024 · 3D / WebGL</div>
+                    <div class="card-title">Example 3D Model</div>
+                    <div class="card-desc">Interactive three-dimensional model rendered in the browser. Rotate, zoom, and explore in real time.</div>
+                    <div class="card-tags">
+                        <span class="card-tag">Three.js</span>
+                        <span class="card-tag">GLSL</span>
+                        <span class="card-tag">Blender</span>
+                    </div>
+                </div>
+                <span class="card-arrow">→</span>
+            </a>
+
+            <!-- Add more cards here following the same pattern -->
+
+            <div class="empty-state" id="empty-state">
+                <p>Nothing here yet.</p>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <span>© Meakalia Gilman</span>
+        <button class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Top</button>
+    </footer>
+
+</div>
+
+<script>
+    // ── Filter logic ──
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.card[data-type]');
+    const emptyState = document.getElementById('empty-state');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filter = btn.dataset.filter;
+            let visible = 0;
+
+            cards.forEach(card => {
+                const show = filter === 'all' || card.dataset.type === filter;
+                card.classList.toggle('hidden', !show);
+                if (show) visible++;
+            });
+
+            emptyState.classList.toggle('visible', visible === 0);
+        });
+    });
+</script>
+</body>
+</html>
