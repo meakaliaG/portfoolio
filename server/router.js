@@ -2,20 +2,16 @@ const controllers = require('./controllers');
 
 const router = (app) => {
 
-    // Home
-    app.get('/', controllers.Loader.loadPage);
-
-    // Work gallery
-    app.get('/work', controllers.Portfolio.loadWork);
-
-    // Individual project page
+    /* ── Page routes (render handlebars shells) ─── */
+    app.get('/',              controllers.Portfolio.loadHome);
+    app.get('/work',          controllers.Portfolio.loadWork);
     app.get('/project/:slug', controllers.Portfolio.loadProject);
+    app.get('/about',         controllers.Portfolio.loadAbout);
+    app.get('/contact',       controllers.Portfolio.loadContact);
 
-    // About page
-    app.get('/about', controllers.Portfolio.loadAbout);
-
-    // Contact page
-    app.get('/contact', controllers.Portfolio.loadContact);
+    /* ── JSON API (consumed by React JSX pages) ─── */
+    app.get('/api/projects',       controllers.Portfolio.getProjects);
+    app.get('/api/project/:slug',  controllers.Portfolio.getProject);
 
 };
 

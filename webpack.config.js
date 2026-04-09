@@ -2,10 +2,9 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        // login: './client/pages/login.jsx',
-        // dashboard: './client/pages/dashboard.jsx',
-        // room: './client/pages/room.jsx',
-        // settings: './client/pages/settings.jsx',
+        home:    './client/pages/home.jsx',
+        work:    './client/pages/work.jsx',
+        project: './client/pages/project.jsx',
     },
     module: {
         rules: [
@@ -13,11 +12,11 @@ module.exports = {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 use: {
-                    loader: "babel-loader",
+                    loader: 'babel-loader',
                     options: {
                         presets: [
-                            "@babel/preset-env",
-                            "@babel/preset-react"
+                            '@babel/preset-env',
+                            '@babel/preset-react',
                         ],
                     },
                 },
@@ -25,7 +24,7 @@ module.exports = {
         ],
     },
     resolve: {
-        extensions: ['.js', '.jsx'],   // <-- helps import .jsx correctly
+        extensions: ['.js', '.jsx'],
     },
     mode: 'production',
     watchOptions: {
@@ -33,6 +32,6 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'hosted'),
-        filename: '[name]Bundle.js',
+        filename: '[name]Bundle.js',  // → homeBundle.js, workBundle.js, projectBundle.js
     },
 };

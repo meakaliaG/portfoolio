@@ -44,7 +44,8 @@ body {
 
 .panel-label {
     position: absolute;
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Slackey', serif;
+    /* font-family: "Fascinate", system-ui; */
     font-weight: 300;
     font-style: italic;
     font-size: clamp(1rem, 2vw, 1.4rem);
