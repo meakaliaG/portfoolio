@@ -4,6 +4,12 @@
   "description": "A personal portfolio site",
   "main": "./server/app.js",
   "author": "Meakalia Gilman",
+
+    "engines": {
+    "node": "18.x"
+  },
+
+
   "scripts": {
     "webpack": "webpack",
     "webpackWatch": "webpack watch",
@@ -37,7 +43,7 @@
     "compression": "^1.8.1",
     "connect-redis": "^9.0.0",
     "dotenv": "^17.2.3",
-    "express": "^5.2.1",
+    "express": "^4.21.2",
     "express-handlebars": "^8.0.3",
     "express-sessions": "^1.0.6",
     "helmet": "^8.1.0",
