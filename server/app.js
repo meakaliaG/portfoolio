@@ -25,7 +25,8 @@ const router = require('./router.js');
 // import gsap from "gsap"; // core library
 // import { useGSAP } from "@gsap/react"; // hook
 
-const port = process.env.PORT || process.env.NODE_PORT || 3000;
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on ${PORT}`));
 
 const dbURI = process.env.MONGODB_URI || 'mongodb://localhost/mgPortfolio';
 mongoose.connect(dbURI).catch((err) => {
