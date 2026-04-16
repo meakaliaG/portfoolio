@@ -87,8 +87,8 @@ const Home = () => {
             pathD:       'M495.706 386.301C470.204 367.866 438.872 357 405 357C399.94 357 394.936 357.245 390 357.719V0.0683594H1430L495.706 386.301Z',
             fill:        '#FFE5E4',
             labelText:   'about',
-            labelX:      920,
-            labelY:      130,
+            labelX:      620,
+            labelY:      230,
         },
         {
             id:          'work-panel',
@@ -105,8 +105,8 @@ const Home = () => {
             pathD:       'M1430.48 1024H390.483V666.326C395.263 666.77 400.105 667 405 667C438.923 667 470.3 656.1 495.822 637.614L1430.48 1024Z',
             fill:        '#FFE5E4',
             labelText:   'contact',
-            labelX:      920,
-            labelY:      900,
+            labelX:      620,
+            labelY:      800,
         },
     ];
 

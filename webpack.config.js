@@ -5,6 +5,8 @@ module.exports = {
         home:    './client/pages/home.jsx',
         work:    './client/pages/work.jsx',
         project: './client/pages/project.jsx',
+        about: './client/pages/about.jsx',
+        contact: './client/pages/contact.jsx',
     },
     module: {
         rules: [

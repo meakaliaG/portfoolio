@@ -1,6 +1,6 @@
 const helper = require('../utils/helper.js');
 const React = require('react');
-const { useState, useEffect, useRef, useCallback } = React;
+const { useState, useEffect, useRef } = React;
 const { createRoot } = require('react-dom/client');
 
 /* ─────────────────────────────────────────────
@@ -29,155 +29,8 @@ const Breadcrumb = ({ title }) => (
 );
 
 /* ─────────────────────────────────────────────
-   Component: GalleryViewer
-   Clickable image deck/stack for project photos.
-   
-   Props:
-     images  — array of { src, alt? } objects
-               e.g. [{ src: '/assets/media/proj/1.png', alt: 'Hero shot' }]
-     title   — project title (used for fallback alt text)
-───────────────────────────────────────────── */
-const GalleryViewer = ({ images = [], title = 'Project' }) => {
-    const [current, setCurrent]   = useState(0);
-    const [direction, setDirection] = useState(null); // 'next' | 'prev'
-    const [animating, setAnimating] = useState(false);
-    const timeoutRef = useRef(null);
-
-    const total = images.length;
-
-    const animatingRef = useRef(false);
-
-    const go = useCallback((dir) => {
-        if (animatingRef.current || total <= 1) return;
-
-        animatingRef.current = true;   // set ref immediately (sync)
-        setDirection(dir);
-        setAnimating(true);            // still update state for the CSS class
-
-        timeoutRef.current = setTimeout(() => {
-            setCurrent(prev =>
-                dir === 'next'
-                    ? (prev + 1) % total
-                    : (prev - 1 + total) % total
-            );
-            setAnimating(false);
-            animatingRef.current = false;
-            setDirection(null);
-        }, 280);
-    }, [total]); // ← `animating` removed from deps; `go` is now stable
-
-    // Keyboard navigation
-    useEffect(() => {
-        const handleKey = (e) => {
-            if (e.key === 'ArrowRight') go('next');
-            if (e.key === 'ArrowLeft')  go('prev');
-        };
-        window.addEventListener('keydown', handleKey);
-        return () => {
-            window.removeEventListener('keydown', handleKey);
-            clearTimeout(timeoutRef.current);
-        };
-    }, [go]);
-
-    if (total === 0) {
-        return (
-            <div className="viewer-section">
-                <div className="viewer-frame gallery-frame gallery-empty">
-                    <span className="gallery-empty-label">No images yet</span>
-                </div>
-            </div>
-        );
-    }
-
-    /* Build a small peek-stack: show up to 2 cards behind the active one */
-    const peekCount = Math.min(2, total - 1);
-
-    return (
-        <div className="viewer-section">
-            <div className="gallery-stage">
-
-                {/* Background stack peek cards */}
-                {Array.from({ length: peekCount }).map((_, i) => {
-                    const offset = peekCount - i; // 2, 1
-                    return (
-                        <div
-                            key={`peek-${i}`}
-                            className="gallery-card gallery-card--peek"
-                            style={{
-                                '--peek-offset': offset,
-                                zIndex: offset,
-                            }}
-                        />
-                    );
-                })}
-
-                {/* Active image card */}
-                <div
-                    className={`gallery-card gallery-card--active ${animating ? `gallery-card--exit-${direction}` : ''}`}
-                    style={{ zIndex: peekCount + 1 }}
-                >
-                    <img
-                        src={images[current].src}
-                        alt={images[current].alt || `${title} — image ${current + 1}`}
-                        className="gallery-img"
-                        draggable={false}
-                    />
-
-                    {/* Counter badge */}
-                    <div className="gallery-counter">
-                        {String(current + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
-                    </div>
-                </div>
-
-                {/* Click zones (left half = prev, right half = next) */}
-                {total > 1 && (
-                    <>
-                        <button
-                            className="gallery-zone gallery-zone--prev"
-                            onClick={() => go('prev')}
-                            aria-label="Previous image"
-                        >
-                            <span className="gallery-arrow">←</span>
-                        </button>
-                        <button
-                            className="gallery-zone gallery-zone--next"
-                            onClick={() => go('next')}
-                            aria-label="Next image"
-                        >
-                            <span className="gallery-arrow">→</span>
-                        </button>
-                    </>
-                )}
-            </div>
-
-            {/* Dot navigation */}
-            {total > 1 && (
-                <div className="gallery-dots">
-                    {images.map((_, i) => (
-                        <button
-                            key={i}
-                            className={`gallery-dot ${i === current ? 'gallery-dot--active' : ''}`}
-                            onClick={() => {
-                                if (i === current) return;
-                                go(i > current ? 'next' : 'prev');
-                                // Jump directly after animation
-                                setTimeout(() => setCurrent(i), 290);
-                            }}
-                            aria-label={`Go to image ${i + 1}`}
-                        />
-                    ))}
-                </div>
-            )}
-
-            <div className="viewer-controls">
-                <span className="ctrl-hint">← → keys or click to browse</span>
-            </div>
-        </div>
-    );
-};
-
-/* ─────────────────────────────────────────────
-   Component: IframeViewer (kept for webapp projects)
+   Component: IframeViewer
+   Renders a web app inside an iframe
 ───────────────────────────────────────────── */
 const IframeViewer = ({ iframeUrl, liveUrl }) => {
     const [loaded, setLoaded] = useState(false);
@@ -202,9 +55,16 @@ const IframeViewer = ({ iframeUrl, liveUrl }) => {
                 />
             </div>
             <div className="viewer-controls">
-                <button className="ctrl-btn" onClick={() => setLoaded(false)}>↺ Reload</button>
+                <button
+                    className="ctrl-btn"
+                    onClick={() => setLoaded(false)}
+                >
+                    ↺ Reload
+                </button>
                 {liveUrl && (
-                    <a className="ctrl-btn" href={liveUrl} target="_blank" rel="noreferrer">↗ Open Full</a>
+                    <a className="ctrl-btn" href={liveUrl} target="_blank" rel="noreferrer">
+                        ↗ Open Full
+                    </a>
                 )}
             </div>
         </div>
@@ -212,41 +72,19 @@ const IframeViewer = ({ iframeUrl, liveUrl }) => {
 };
 
 /* ─────────────────────────────────────────────
-   Component: ItchEmbed
-───────────────────────────────────────────── */
-const ItchEmbed = ({ project }) => {
-    const { id, width, height } = project.iframeEmbed;
-    return (
-        <div className="viewer-section">
-            <div className="viewer-frame">
-                <iframe
-                    src={`https://itch.io/embed/${id}`}
-                    width={width}
-                    height={height}
-                    frameBorder="0"
-                />
-            </div>
-            <div className="viewer-controls">
-                <a className="ctrl-btn" href={project.liveUrl} target="_blank" rel="noreferrer">
-                    ↗ Open on itch.io
-                </a>
-            </div>
-        </div>
-    );
-};
-
-/* ─────────────────────────────────────────────
-   Component: ThreeViewer (3D model fallback)
+   Component: ThreeViewer
+   Three.js canvas viewer for 3D models
 ───────────────────────────────────────────── */
 const ThreeViewer = ({ modelUrl }) => {
-    const frameRef  = useRef(null);
-    const canvasRef = useRef(null);
-    const stateRef  = useRef({ rotX: 0, rotY: 0, zoom: 4, isDragging: false });
-    const sceneRef  = useRef({});
+    const frameRef    = useRef(null);
+    const canvasRef   = useRef(null);
+    const stateRef    = useRef({ rotX: 0, rotY: 0, zoom: 4, isDragging: false });
+    const sceneRef    = useRef({});
     const [wireframe, setWireframe] = useState(false);
     const [darkBg,    setDarkBg]    = useState(true);
 
     useEffect(() => {
+        // Load Three.js from CDN then initialise
         const script = document.createElement('script');
         script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
         script.onload = () => initThree();
@@ -260,16 +98,19 @@ const ThreeViewer = ({ modelUrl }) => {
         const frame  = frameRef.current;
         if (!canvas || !frame) return;
 
+        // Scene & camera
         const scene  = new THREE.Scene();
         scene.background = new THREE.Color(0x1a0505);
         const camera = new THREE.PerspectiveCamera(45, frame.clientWidth / frame.clientHeight, 0.1, 100);
         camera.position.set(0, 1.5, 4);
 
+        // Renderer
         const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
         renderer.setSize(frame.clientWidth, frame.clientHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderer.shadowMap.enabled = true;
 
+        // Lighting
         scene.add(new THREE.AmbientLight(0xffe5e4, 0.6));
         const dir = new THREE.DirectionalLight(0xffffff, 1.2);
         dir.position.set(3, 5, 3);
@@ -278,6 +119,7 @@ const ThreeViewer = ({ modelUrl }) => {
             position: new THREE.Vector3(-3, 1, -3)
         }));
 
+        // Placeholder / actual model
         const geo  = new THREE.TorusKnotGeometry(1, 0.32, 128, 16);
         const mat  = new THREE.MeshStandardMaterial({ color: 0x550101, roughness: 0.3, metalness: 0.7 });
         const mesh = new THREE.Mesh(geo, mat);
@@ -289,8 +131,10 @@ const ThreeViewer = ({ modelUrl }) => {
         grid.position.y = -1.6;
         scene.add(grid);
 
+        // Store refs for controls
         sceneRef.current = { scene, camera, renderer, mesh, mat };
 
+        /* ── Pointer drag ── */
         const s = stateRef.current;
         canvas.addEventListener('mousedown',  e => { s.isDragging = true;  s.px = e.clientX; s.py = e.clientY; });
         window.addEventListener('mouseup',    () => { s.isDragging = false; });
@@ -305,6 +149,7 @@ const ThreeViewer = ({ modelUrl }) => {
             e.preventDefault();
         }, { passive: false });
 
+        /* ── Resize ── */
         const onResize = () => {
             camera.aspect = frame.clientWidth / frame.clientHeight;
             camera.updateProjectionMatrix();
@@ -312,6 +157,7 @@ const ThreeViewer = ({ modelUrl }) => {
         };
         window.addEventListener('resize', onResize);
 
+        /* ── Render loop ── */
         (function animate() {
             requestAnimationFrame(animate);
             if (!s.isDragging) s.rotY += 0.003;
@@ -321,12 +167,25 @@ const ThreeViewer = ({ modelUrl }) => {
             camera.lookAt(scene.position);
             renderer.render(scene, camera);
         })();
+
+        /* ── TODO: load your actual GLB ──────────────────────────
+           Once you've placed file in /hosted/models/:
+           
+           const { GLTFLoader } = await import('/assets/js/GLTFLoader.js');
+           const loader = new GLTFLoader();
+           loader.load(modelUrl || '/assets/models/your-model.glb', (gltf) => {
+               scene.remove(mesh);   // remove placeholder torus
+               scene.add(gltf.scene);
+           });
+        ──────────────────────────────────────────────────────── */
     };
 
+    // Wireframe toggle
     useEffect(() => {
         if (sceneRef.current.mat) sceneRef.current.mat.wireframe = wireframe;
     }, [wireframe]);
 
+    // Background toggle
     useEffect(() => {
         if (sceneRef.current.scene) {
             sceneRef.current.scene.background = new window.THREE.Color(darkBg ? 0x1a0505 : 0xffe5e4);
@@ -354,39 +213,106 @@ const ThreeViewer = ({ modelUrl }) => {
     );
 };
 
-/* ─────────────────────────────────────────────
-   Helper: generateProjLinks
-───────────────────────────────────────────── */
 const generateProjLinks = ({ project }) => {
-    const { githubUrl, liveUrl } = project;
+    const { title, year, type, description, role, tech, githubUrl, liveUrl } = project;
 
-    if (!githubUrl && !liveUrl) return null;
 
-    return (
-        <div className="proj-links">
-            {githubUrl && (
-                <a className="proj-link" href={githubUrl} target="_blank" rel="noreferrer">
-                    <span>GitHub</span><span>↗</span>
-                </a>
-            )}
-            {liveUrl && (
-                <a className="proj-link" href={liveUrl} target="_blank" rel="noreferrer">
-                    <span>Live Site</span><span>↗</span>
-                </a>
-            )}
-        </div>
-    );
-};
+    if (project.githubUrl && !project.liveUrl) {
+        return (
+            <div className="proj-links">
+                {githubUrl && (
+                    <a className="proj-link" href={githubUrl} target="_blank" rel="noreferrer">
+                        <span>GitHub</span><span>↗</span>
+                    </a>
+                )}
+            </div>
+        )
+    } else if (!project.githubUrl && project.liveUrl) {
+        return (
+            <div className="proj-links">
+                {liveUrl && (
+                    <a className="proj-link" href={liveUrl} target="_blank" rel="noreferrer">
+                        <span>Live Site</span><span>↗</span>
+                    </a>
+                )}
+            </div>
+        )
+    } else if (project.githubUrl && project.liveUrl) {
+        return (
+            <div className="proj-links">
+                {githubUrl && (
+                    <a className="proj-link" href={githubUrl} target="_blank" rel="noreferrer">
+                        <span>GitHub</span><span>↗</span>
+                    </a>
+                )}
+                {liveUrl && (
+                    <a className="proj-link" href={liveUrl} target="_blank" rel="noreferrer">
+                        <span>Live Site</span><span>↗</span>
+                    </a>
+                )}
+            </div>
+        )
+    } else {
+        return null;
+    }
+}
 
 /* ─────────────────────────────────────────────
    Component: Sidebar
 ───────────────────────────────────────────── */
 const Sidebar = ({ project }) => {
-    const { title, year, type, description, role, tech } = project;
+    const { title, year, type, description, role, tech, githubUrl, liveUrl } = project;
 
+    // if (project.githubUrl && project.liveUrl) {
+    //    return (
+    //     <aside className="sidebar">
+    //         <span className={`proj-type-badge ${type}`}>
+    //             {type === 'model3d' ? '3D Model' : 'Web App'}
+    //         </span>
+    //         <h1 className="proj-title">{title}</h1>
+    //         <div className="proj-year">{year}</div>
+
+    //         <div className="sidebar-section">
+    //             <h3>About</h3>
+    //             <p>{description}</p>
+    //         </div>
+
+    //         {role && (
+    //             <div className="sidebar-section">
+    //                 <h3>Role</h3>
+    //                 <p>{role}</p>
+    //             </div>
+    //         )}
+
+    //         {tech && tech.length > 0 && (
+    //             <div className="sidebar-section">
+    //                 <h3>Built with</h3>
+    //                 <div className="tech-list">
+    //                     {tech.map(t => <span key={t} className="tech-pill">{t}</span>)}
+    //                 </div>
+    //             </div>
+    //         )}
+
+    //         <div className="proj-links">
+    //             {githubUrl && (
+    //                 <a className="proj-link" href={githubUrl} target="_blank" rel="noreferrer">
+    //                     <span>GitHub</span><span>↗</span>
+    //                 </a>
+    //             )}
+    //             {liveUrl && (
+    //                 <a className="proj-link" href={liveUrl} target="_blank" rel="noreferrer">
+    //                     <span>Live Site</span><span>↗</span>
+    //                 </a>
+    //             )}
+    //         </div>
+    //     </aside>
+    // ); 
+    // } else {
     return (
         <aside className="sidebar">
-            <span className={`proj-type-badge ${type}`}>{type}</span>
+            <span className={`proj-type-badge ${type}`}>
+                {type}
+            </span>
             <h1 className="proj-title">{title}</h1>
             <div className="proj-year">{year}</div>
 
@@ -411,47 +337,34 @@ const Sidebar = ({ project }) => {
                 </div>
             )}
 
-            {generateProjLinks({ project })}
+            {generateProjLinks(project)}
+
         </aside>
     );
 };
 
 /* ─────────────────────────────────────────────
-   Helper: pick the right viewer
-   Priority:
-     1. images array (gallery) — NEW default
-     2. iframeEmbed (itch.io)
-     3. iframeUrl   (generic web app embed)
-     4. ThreeViewer (3D / fallback)
-───────────────────────────────────────────── */
-const ProjectViewer = ({ project }) => {
-    if (project.images && project.images.length > 0) {
-        return <GalleryViewer images={project.images} title={project.title} />;
-    }
-    if (project.iframeEmbed) {
-        return <ItchEmbed project={project} />;
-    }
-    if (project.iframeUrl) {
-        return <IframeViewer iframeUrl={project.iframeUrl} liveUrl={project.liveUrl} />;
-    }
-    return <ThreeViewer modelUrl={project.modelUrl} />;
-};
-
-/* ─────────────────────────────────────────────
    Component: Project (main)
+   Reads the slug from the URL, fetches project
+   data from /api/project/:slug, then renders
+   the correct viewer.
 ───────────────────────────────────────────── */
 const Project = () => {
-    const [project,  setProject]  = useState(null);
-    const [loading,  setLoading]  = useState(true);
+    const [project, setProject] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [notFound, setNotFound] = useState(false);
 
+    // Extract slug from URL: /project/my-slug → 'my-slug'
     const slug = window.location.pathname.split('/').filter(Boolean).pop();
 
-    useEffect(() => { loadProject(); }, []);
+    useEffect(() => {
+        loadProject();
+    }, []);
 
     const loadProject = async () => {
         setLoading(true);
         const result = await helper.sendGet(`/api/project/${slug}`);
+
         if (result.project) {
             setProject(result.project);
             document.title = `${result.project.title} — Meakalia Gilman`;
@@ -485,15 +398,57 @@ const Project = () => {
         <div className="project-page-inner">
             <PageHeader />
             <Breadcrumb title={project.title} />
+
             <div className="project-layout">
-                <ProjectViewer project={project} />
+                {/* Viewer — left/main column */}
+                {project.type === 'webapp' && (project.iframeUrl || project.iframeEmbed) ? (
+                    project.iframeEmbed ? (
+                        <ItchEmbed project={project} />
+                    ) : (
+                        <IframeViewer iframeUrl={project.iframeUrl} liveUrl={project.liveUrl} />
+                    )
+                ) : (
+                    <ThreeViewer modelUrl={project.modelUrl} />
+                )}
+
+                {/* Info — right column */}
                 <Sidebar project={project} />
             </div>
         </div>
     );
 };
 
-/* ── Init ── */
+const ItchEmbed = ({ project }) => {
+    const { id, width, height } = project.iframeEmbed;
+
+    return (
+        <div className="viewer-section">
+            <div className="viewer-frame">
+                <iframe
+                    src={`https://itch.io/embed/${id}`}
+                    width={width}
+                    height={height}
+                    frameBorder="0"
+                />
+            </div>
+
+            <div className="viewer-controls">
+                <a
+                    className="ctrl-btn"
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    ↗ Open on itch.io
+                </a>
+            </div>
+        </div>
+    );
+};
+
+/* ─────────────────────────────────────────────
+   Init
+───────────────────────────────────────────── */
 const init = () => {
     const root = createRoot(document.getElementById('app'));
     root.render(<Project />);

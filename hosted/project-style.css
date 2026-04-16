@@ -5,68 +5,142 @@
     --ink:      #1a0505;
     --border:   rgba(85,1,1,0.12);
 }
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; font-family: 'DM Mono', monospace; background: var(--blush); color: var(--ink); }
+
+/* 
+   FIX: Remove height:100% — it was locking the page to viewport height
+   and preventing the sidebar + long descriptions from scrolling.
+*/
+html {
+    font-family: 'DM Mono', monospace;
+    background: var(--blush);
+    color: var(--ink);
+}
+body {
+    font-family: 'DM Mono', monospace;
+    background: var(--blush);
+    color: var(--ink);
+    /* allow the page to scroll naturally */
+    min-height: 100vh;
+}
 
 /* ── Header ── */
-header {
+header.page-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 2rem 3rem;
+    padding: 1.5rem 3rem;
     border-bottom: 1px solid var(--border);
-    position: sticky; top: 0;
+    position: sticky;
+    top: 0;
     background: var(--blush);
     z-index: 200;
 }
 .logo-link {
     font-family: 'Slackey', serif;
-    font-size: 1.1rem; font-style: italic; font-weight: 300;
-    color: var(--crimson); text-decoration: none; letter-spacing: 0.08em;
+    font-size: 1.1rem;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--crimson);
+    text-decoration: none;
+    letter-spacing: 0.08em;
 }
 .logo-link:hover { opacity: 0.7; }
 nav a {
-    font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--crimson); text-decoration: none; margin-left: 2.5rem; transition: opacity 0.2s;
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--crimson);
+    text-decoration: none;
+    margin-left: 2.5rem;
+    transition: opacity 0.2s;
 }
 nav a:hover { opacity: 0.5; }
 
 /* ── Breadcrumb ── */
 .breadcrumb {
-    padding: 1.2rem 3rem 0;
-    font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 1rem 3rem 0;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
 }
-.breadcrumb a { color: var(--crimson); opacity: 0.45; text-decoration: none; transition: opacity 0.2s; }
+.breadcrumb a {
+    color: var(--crimson);
+    opacity: 0.45;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
 .breadcrumb a:hover { opacity: 0.8; }
-.breadcrumb span { color: var(--crimson); opacity: 0.3; margin: 0 0.5rem; }
-
-/* ── Project layout ── */
-.project-page {
-    display: grid;
-    grid-template-columns: 1fr 340px;
-    gap: 0;
-    min-height: calc(100vh - 80px);
+.breadcrumb span {
+    color: var(--crimson);
+    opacity: 0.3;
+    margin: 0 0.5rem;
 }
-@media (max-width: 900px) {
-    .project-page { grid-template-columns: 1fr; }
-    .sidebar { border-left: none; border-top: 1px solid var(--border); }
-}
+.crumb-current { opacity: 0.7; }
 
-/* ── Main viewer ── */
-.viewer {
+/* ── Project page wrapper ── */
+.project-page-inner {
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    padding: 2rem 3rem;
-    animation: fadeUp 0.6s ease both;
 }
+
+/*
+   FIX: was `.project-page` in CSS but `project-layout` in JSX.
+   Now both names work; the grid kicks in above 900px.
+*/
+.project-layout,
+.project-page {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 0;
+    flex: 1;
+    align-items: start;       /* let each column be its own height */
+}
+
+@media (max-width: 900px) {
+    .project-layout,
+    .project-page {
+        grid-template-columns: 1fr;
+    }
+    .sidebar {
+        border-left: none !important;
+        border-top: 1px solid var(--border);
+    }
+}
+
+/* ── Viewer column ──
+   FIX: was `.viewer` in CSS but `viewer-section` in JSX.
+   Now both names work.
+*/
+.viewer-section,
+.viewer {
+    padding: 1.5rem 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    animation: fadeUp 0.6s ease both;
+    /* 
+       Let the viewer column scroll independently if content is very tall,
+       but don't impose a fixed height.
+    */
+    min-width: 0; /* prevents grid blowout on wide images */
+}
+
 @keyframes fadeUp {
     from { opacity: 0; transform: translateY(20px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
+/* ── Iframe viewer frame ── */
 .viewer-frame {
-    flex: 1;
-    min-height: 520px;
+    /*
+       FIX: removed min-height:520px — it forced a tall box even when
+       the content was short or the screen was small.
+       Use aspect-ratio instead; it scales with the column width.
+    */
+    aspect-ratio: 16 / 9;
+    width: 100%;
     background: var(--ink);
     border-radius: 4px;
     overflow: hidden;
@@ -74,102 +148,409 @@ nav a:hover { opacity: 0.5; }
     border: 1px solid var(--border);
 }
 
-/* ── iFrame embed ── */
 .viewer-frame iframe {
-    width: 100%; height: 100%; min-height: 520px;
-    border: none; display: block;
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
 }
 
-/* ── Three.js canvas fills the frame ── */
 #three-canvas {
     width: 100% !important;
     height: 100% !important;
     display: block;
 }
 
-/* Viewer controls bar */
+/* ── Viewer controls bar ── */
 .viewer-controls {
     display: flex;
     gap: 0.6rem;
-    margin-top: 0.8rem;
+    margin-top: 0.75rem;
     align-items: center;
+    flex-wrap: wrap;
 }
 .ctrl-btn {
     font-family: 'DM Mono', monospace;
-    font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
-    padding: 0.4rem 0.9rem; border: 1px solid var(--border);
-    background: transparent; color: var(--crimson); cursor: pointer; border-radius: 2px;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--crimson);
+    cursor: pointer;
+    border-radius: 2px;
+    text-decoration: none;
+    display: inline-block;
     transition: background 0.2s, color 0.2s;
 }
 .ctrl-btn:hover { background: var(--crimson); color: var(--blush); }
 .ctrl-hint {
     margin-left: auto;
-    font-size: 0.58rem; letter-spacing: 0.12em;
-    color: var(--crimson); opacity: 0.35;
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    color: var(--crimson);
+    opacity: 0.35;
 }
+
+/* ── Loading / not-found states ── */
+.loading-container,
+.not-found-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    gap: 1rem;
+    color: var(--crimson);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+.not-found-container h2 {
+    font-family: 'Slackey', serif;
+    font-size: 2rem;
+    font-weight: 300;
+}
+.not-found-container p { opacity: 0.5; }
+
+.loader {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.loader .dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--crimson);
+    border-radius: 50%;
+    animation: bounce 0.5s infinite alternate;
+    opacity: 0.5;
+}
+.loader .dot:nth-child(2) { animation-delay: 100ms; }
+.loader .dot:nth-child(3) { animation-delay: 200ms; }
+@keyframes bounce { 100% { translate: 0 -8px; } }
 
 /* ── Sidebar ── */
 .sidebar {
     border-left: 1px solid var(--border);
-    padding: 2.5rem 2rem;
+    padding: 2rem 1.75rem 2.5rem;
     animation: fadeUp 0.6s 0.15s ease both;
+    /* 
+       Sidebar sticks to the top of the viewport while scrolling,
+       but only if it's shorter than the screen — avoids cutting off
+       long descriptions.
+    */
+    position: sticky;
+    top: 68px; /* approx header height */
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
 }
+
+/* Thin scrollbar for sidebar on overflow */
+.sidebar::-webkit-scrollbar { width: 3px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: rgba(85,1,1,0.2); border-radius: 2px; }
+
 .proj-type-badge {
     display: inline-block;
-    font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
     padding: 0.3rem 0.7rem;
-    background: var(--crimson); color: var(--blush);
-    border-radius: 2px; margin-bottom: 1.2rem;
+    background: var(--crimson);
+    color: var(--blush);
+    border-radius: 2px;
+    margin-bottom: 1rem;
 }
 .proj-title {
     font-family: 'Slackey', serif;
-    font-size: 2.4rem; font-weight: 300; line-height: 1.1;
-    color: var(--crimson); margin-bottom: 0.5rem;
+    font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--crimson);
+    margin-bottom: 0.4rem;
 }
 .proj-year {
-    font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--crimson); opacity: 0.45; margin-bottom: 1.8rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--crimson);
+    opacity: 0.45;
+    margin-bottom: 1.6rem;
 }
-.sidebar-section { margin-bottom: 2rem; }
+
+/* 
+   FIX: consistent sidebar section styling regardless of content length.
+   All projects use the same spacing — previously some had extra margin
+   from leftover commented-out rules.
+*/
+.sidebar-section {
+    margin-bottom: 1.6rem;
+}
 .sidebar-section h3 {
-    font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--crimson); opacity: 0.5; margin-bottom: 0.7rem;
+    font-size: 0.55rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--crimson);
+    opacity: 0.5;
+    margin-bottom: 0.6rem;
 }
 .sidebar-section p {
-    font-size: 0.68rem; line-height: 1.85; color: var(--ink); opacity: 0.7;
+    font-size: 0.68rem;
+    line-height: 1.9;
+    color: var(--ink);
+    opacity: 0.75;
+    /* FIX: wrap long words (project names, URLs) rather than overflow */
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
-.tech-list {
-    display: flex; gap: 0.4rem; flex-wrap: wrap;
-}
 .tech-pill {
-    font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase;
-    padding: 0.2rem 0.6rem; border: 1px solid var(--border);
-    color: var(--crimson); border-radius: 2px;
+    display: inline-block;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--border);
+    color: var(--crimson);
+    border-radius: 2px;
+    margin: 0.2rem 0.2rem 0 0;
 }
 
-.proj-links { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 2rem; }
+.proj-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-top: 1.5rem;
+}
 .proj-link {
-    font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--crimson); text-decoration: none;
-    padding: 0.7rem 1rem; border: 1px solid var(--border);
-    display: flex; justify-content: space-between;
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--crimson);
+    text-decoration: none;
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
     transition: background 0.2s, color 0.2s;
 }
 .proj-link:hover { background: var(--crimson); color: var(--blush); }
 
-/* ── Loading state ── */
+/* ── iframe loading overlay ── */
 .viewer-loading {
-    position: absolute; inset: 0;
-    display: flex; align-items: center; justify-content: center;
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: var(--ink);
 }
-.dot-loader { display: flex; gap: 8px; }
-.dot-loader span {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: rgba(255,229,228,0.5);
-    animation: bounce 0.5s infinite alternate;
+
+/* ═══════════════════════════════════════════════════════════════
+   GALLERY VIEWER
+═══════════════════════════════════════════════════════════════ */
+
+/*
+   FIX: The old padding-bottom:56.25% trick creates a rigid 16:9 box
+   whose pixel height equals 56.25% of the column width.
+   On a 800px wide viewer column that's 450px — fine.
+   But the sidebar + header eat vertical space, so on smaller screens
+   the gallery + sidebar together overflow the viewport.
+
+   Solution: use min() to cap height at a viewport fraction.
+   The gallery will be at most 62vh tall and at most 56% of its width.
+*/
+.gallery-stage {
+    position: relative;
+    width: 100%;
+    /* 
+       height = min(56.25% of own width, 62% of viewport height).
+       We can't do min() with % of different bases in one property,
+       so we set height directly and let the image contain itself.
+    */
+    height: min(56vw, 62vh);
+    /* subtract sidebar width approximation for accuracy */
+    max-height: 68vh;
+    min-height: 260px;
+    margin-bottom: 0.75rem;
 }
-.dot-loader span:nth-child(2) { animation-delay: 0.1s; }
-.dot-loader span:nth-child(3) { animation-delay: 0.2s; }
-@keyframes bounce { 100% { transform: translateY(-8px); } }
+
+/* Shared card base */
+.gallery-card {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--ink);
+    will-change: transform, opacity;
+    transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity  0.28s ease;
+}
+
+/* Peek cards */
+.gallery-card--peek {
+    transform: translate(
+        calc(var(--peek-offset) * 6px),
+        calc(var(--peek-offset) * 5px)
+    ) scale(calc(1 - var(--peek-offset) * 0.018));
+    background: rgba(85, 1, 1, 0.05);
+    border-color: rgba(85, 1, 1, 0.07);
+    pointer-events: none;
+}
+
+/* Active card */
+.gallery-card--active {
+    cursor: pointer;
+    transform: translate(0, 0) scale(1);
+}
+
+/* Exit animations */
+.gallery-card--exit-next {
+    transform: translateX(-8%) rotate(-1.5deg);
+    opacity: 0;
+}
+.gallery-card--exit-prev {
+    transform: translateX(8%) rotate(1.5deg);
+    opacity: 0;
+}
+
+/*
+   FIX: object-fit:contain shows the full image without cropping,
+   so portrait images or square screenshots won't be clipped.
+   The dark background (var(--ink)) fills the letterbox areas.
+*/
+.gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+    background: var(--ink);
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* Counter badge */
+.gallery-counter {
+    position: absolute;
+    top: 0.9rem;
+    right: 0.9rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--blush);
+    background: rgba(85,1,1,0.6);
+    backdrop-filter: blur(4px);
+    padding: 0.25rem 0.65rem;
+    border-radius: 2px;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Click zones */
+.gallery-zone {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 38%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    z-index: 10;
+    padding: 0 1rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+.gallery-zone:hover { opacity: 1; }
+.gallery-zone--prev { left: 0;  justify-content: flex-start; }
+.gallery-zone--next { right: 0; justify-content: flex-end; }
+
+.gallery-arrow {
+    font-size: 1rem;
+    color: var(--crimson);
+    background: var(--blush);
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 4px 16px rgba(85,1,1,0.18);
+    pointer-events: none;
+    transition: transform 0.2s;
+}
+.gallery-zone--prev:hover .gallery-arrow { transform: translateX(-2px); }
+.gallery-zone--next:hover .gallery-arrow { transform: translateX(2px); }
+
+/* Dot navigation */
+.gallery-dots {
+    display: flex;
+    gap: 0.4rem;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+.gallery-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    border: 1px solid var(--crimson);
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.2s, transform 0.2s;
+}
+.gallery-dot--active {
+    background: var(--crimson);
+    transform: scale(1.35);
+}
+
+/* Empty gallery state */
+.gallery-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.gallery-empty-label {
+    font-family: 'Slackey', serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: rgba(255,229,228,0.3);
+    letter-spacing: 0.08em;
+}
+
+/* ── Responsive tweaks ── */
+@media (max-width: 900px) {
+    .viewer-section,
+    .viewer {
+        padding: 1.25rem 1.25rem 1.5rem;
+    }
+
+    header.page-header {
+        padding: 1.25rem 1.5rem;
+    }
+
+    .breadcrumb {
+        padding: 0.75rem 1.5rem 0;
+    }
+
+    .sidebar {
+        position: static;   /* on mobile, sidebar flows below viewer */
+        max-height: none;
+        overflow-y: visible;
+        padding: 1.5rem 1.25rem;
+    }
+
+    .gallery-stage {
+        height: min(56vw, 50vh);
+        min-height: 220px;
+    }
+}
