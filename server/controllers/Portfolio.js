@@ -65,7 +65,7 @@ const PROJECTS = [
 
         ],
         iframeUrl:    null,
-        liveUrl:      null,
+        liveUrl:      "https://atlas-of-elasmobranchs-469fb0e8ffd5.herokuapp.com/",
         githubUrl:    'https://github.com/meakaliaG/atlas-of-elasmobranchs.git',
         modelUrl:     null,
     },
