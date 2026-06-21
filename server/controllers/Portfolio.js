@@ -94,10 +94,10 @@ const PROJECTS = [
         type:         'Design Project',
         description:  'A practice in the universal elements of shape and color.',
         role:         'Designer',
-        tech:         ['React', 'Node.js', 'Express', 'CSS'],
+        tech:         ['Adobe Suite'],
         thumbnailUrl: null,
         images: [
-            // { src: '/assets/media/traqd/dashboard.png', alt: 'Dashboard' },
+            { src: '/assets/media/principles/MeaGilmanDesignPrinciples.png'},
         ],
         // Falls back to iframeUrl when images array is empty
         iframeUrl:    'https://traqd-6s3q-lvy7mig4t-meakaliags-projects.vercel.app/',
@@ -109,18 +109,18 @@ const PROJECTS = [
         slug:         'traqd',
         title:        'traqd',
         year:         '2025',
-        type:         'project',
+        type:         'webapp',
         description:  'A compliment to your everyday narrative.',
         role:         'Design & Development',
-        tech:         ['Adobe Suite'],
+        tech:         ['React', 'Node.js', 'Express', 'CSS'],
         thumbnailUrl: null,
         images: [
-            { src: '/assets/media/principles/MeaGilmanDesignPrinciples.png'},
+            // { src: '/assets/media/traqd/dashboard.png', alt: 'Dashboard' },
         ],
         // Falls back to iframeUrl when images array is empty
-        iframeUrl:    null,
-        liveUrl:      null,
-        githubUrl:    null,
+        iframeUrl:    'https://traqd-6s3q-lvy7mig4t-meakaliags-projects.vercel.app/',
+        liveUrl:      'https://traqd-6s3q-lvy7mig4t-meakaliags-projects.vercel.app/',
+        githubUrl:    'https://github.com/meakaliaG/traqd.git',
         modelUrl:     null,
     },
     {
