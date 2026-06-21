@@ -75,16 +75,22 @@ const RESUME_ENTRIES = [
         category: 'Experience',
         items: [
             {
+                title: '3D Modeler',
+                org:   'In Passing · Magic Spell Studios',
+                year:  '2025',
+                note:  'Asset creation in Blender and Material Maker for a narrative 2.5D adventure game.',
+            },
+            {
+                title: 'Full Stack Developer',
+                org:   'Atlas of Elasmobranchs · Senior Capstone',
+                year:  '2026',
+                note:  'Full-stack development for marine biology web learning module.',
+            },
+            {
                 title: 'UI/UX Design & Development',
                 org:   'Independent / Freelance',
                 year:  '2024 – Present',
                 note:  'Full-stack design and development for web applications and brand identity projects.',
-            },
-            {
-                title: '3D Modeler',
-                org:   'In Passing (Game Project)',
-                year:  '2025',
-                note:  'Asset creation in Blender and Material Maker for a narrative 2.5D adventure game.',
             },
         ],
     },

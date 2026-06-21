@@ -77,8 +77,7 @@ const PROJECTS = [
         description:  'The 21st Century light organ. Your colorful accompaniment.',
         role:         'Design & Development',
         tech:         ['React', 'Node.js', 'Express', 'CSS'],
-        thumbnailUrl: null,
-        // ── Add your screenshots here ──────────────────────────────
+        thumbnailUrl: '/assets/media/disco/disco-organ-thumb.png',
         images: [
             { src: '/assets/media/disco/disco-organ-thumb.png', alt: 'Main interface' },
         ],
@@ -150,7 +149,7 @@ const PROJECTS = [
         title:        'StepByStep',
         year:         '2024',
         type:         'infographic',
-        description:  'Packing for a Stylized Trip is a step-by-step guide designed to help you curate the perfect travel wardrobe with intention and creativity. This infographic walks you through a structured approach to packing with style — incorporating mood boards, personal wardrobe assessments, and outfit experimentation.',
+        description:  'Packing for a Stylized Trip is a step-by-step guide designed to help you curate the perfect travel wardrobe with intention and creativity. This infographic walks you through a structured approach to packing with flare and finesse — incorporating mood boards, personal wardrobe assessments, and outfit experimentation.',
         role:         'Graphic Designer',
         tech:         ['Adobe Suite'],
         thumbnailUrl: 'assets/media/stepByStep/sbs1.png',
