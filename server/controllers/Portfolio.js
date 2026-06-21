@@ -115,7 +115,7 @@ const PROJECTS = [
         tech:         ['Adobe Suite'],
         thumbnailUrl: null,
         images: [
-            { src: '/assets/media/principles/MeaGilmanDesignPrinciples.pdf'},
+            { src: '/assets/media/principles/MeaGilmanDesignPrinciples.png'},
         ],
         // Falls back to iframeUrl when images array is empty
         iframeUrl:    null,
