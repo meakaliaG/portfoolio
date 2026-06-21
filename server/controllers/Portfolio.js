@@ -100,9 +100,9 @@ const PROJECTS = [
             { src: '/assets/media/principles/MeaGilmanDesignPrinciples.png'},
         ],
         // Falls back to iframeUrl when images array is empty
-        iframeUrl:    'https://traqd-6s3q-lvy7mig4t-meakaliags-projects.vercel.app/',
-        liveUrl:      'https://traqd-6s3q-lvy7mig4t-meakaliags-projects.vercel.app/',
-        githubUrl:    'https://github.com/meakaliaG/traqd.git',
+        iframeUrl:    null,
+        liveUrl:      null,
+        githubUrl:    null,
         modelUrl:     null,
     },
     {
