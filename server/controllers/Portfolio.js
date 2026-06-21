@@ -88,12 +88,12 @@ const PROJECTS = [
         modelUrl:     null,
     },
     {
-        slug:         'traqd',
-        title:        'traqd',
-        year:         '2025',
-        type:         'webapp',
-        description:  'A compliment to your everyday narrative.',
-        role:         'Design & Development',
+        slug:         'design principles',
+        title:        'Design Principles',
+        year:         '2024',
+        type:         'Design Project',
+        description:  'A practice in the universal elements of shape and color.',
+        role:         'Designer',
         tech:         ['React', 'Node.js', 'Express', 'CSS'],
         thumbnailUrl: null,
         images: [
@@ -103,6 +103,24 @@ const PROJECTS = [
         iframeUrl:    'https://traqd-6s3q-lvy7mig4t-meakaliags-projects.vercel.app/',
         liveUrl:      'https://traqd-6s3q-lvy7mig4t-meakaliags-projects.vercel.app/',
         githubUrl:    'https://github.com/meakaliaG/traqd.git',
+        modelUrl:     null,
+    },
+    {
+        slug:         'traqd',
+        title:        'traqd',
+        year:         '2025',
+        type:         'webapp',
+        description:  'A compliment to your everyday narrative.',
+        role:         'Design & Development',
+        tech:         ['Adobe Suite'],
+        thumbnailUrl: null,
+        images: [
+            { src: '/assets/media/principles/MeaGilmanDesignPrinciples.pdf'},
+        ],
+        // Falls back to iframeUrl when images array is empty
+        iframeUrl:    null,
+        liveUrl:      null,
+        githubUrl:    null,
         modelUrl:     null,
     },
     {
