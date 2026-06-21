@@ -109,7 +109,7 @@ const PROJECTS = [
         slug:         'traqd',
         title:        'traqd',
         year:         '2025',
-        type:         'webapp',
+        type:         'project',
         description:  'A compliment to your everyday narrative.',
         role:         'Design & Development',
         tech:         ['Adobe Suite'],
