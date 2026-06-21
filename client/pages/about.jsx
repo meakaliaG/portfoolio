@@ -135,10 +135,10 @@ const ResumeSection = () => {
     return (
         <section className="resume-section">
             <div className="section-header">
-                <span className="section-label">résumé</span>
+                <span className="section-label">resume</span>
                 <a
                     className="resume-download"
-                    href="/assets/media/MeakaliaGilman_Resume.pdf"
+                    href="/assets/media/MeakaliaGilman_Resume.docx"
                     target="_blank"
                     rel="noreferrer"
                     download
