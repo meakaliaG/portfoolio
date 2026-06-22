@@ -125,7 +125,7 @@ const RESUME_ENTRIES = [
                 title: 'Communication',
                 org:   '',
                 year:  '',
-                note:  'Skilled at creating welcoming environments and managing client needs with preofessional eagerness.',
+                note:  'Skilled at creating welcoming environments and managing client needs with professional eagerness.',
             },
         ],
     },
@@ -167,6 +167,74 @@ const ResumeSection = () => {
         </section>
     );
 };
+
+/* ─────────────────────────────────────────────
+   Component: Interests
+   Tag cloud grouped by category
+───────────────────────────────────────────── */
+const INTERESTS = [
+    {
+        category: 'Tech & Design',
+        tags: [
+            'Generative Art',
+            'Creative Coding',
+            'Typography',
+            'Interaction Design',
+            'World Building',
+            'Game Design',
+        ],
+    },
+    {
+        category: 'Culture & Heritage',
+        tags: [
+            'Hula',
+            'Hawaiian History',
+            'Indigenous Preservation',
+            'Oral Tradition',
+            'Polynesian Navigation',
+        ],
+    },
+    {
+        category: 'Creative',
+        tags: [
+            'Drawing',
+            'Music',
+            '3D Sculpture',
+            'Narrative Writing',
+            'Zine Making',
+        ],
+    },
+    {
+        category: 'Film',
+        tags: [
+            'Foreign Film',
+            'Studio Ghibli',
+            'French New Wave',
+            'Visual Storytelling',
+            'Animation Studies',
+        ],
+    },
+];
+ 
+const Interests = () => (
+    <section className="interests-section">
+        <div className="section-header">
+            <span className="section-label">interests</span>
+        </div>
+        <div className="interests-grid">
+            {INTERESTS.map(group => (
+                <div key={group.category} className="interests-group">
+                    <h3 className="interests-category">{group.category}</h3>
+                    <div className="interests-tags">
+                        {group.tags.map(tag => (
+                            <span key={tag} className="bio-tag">{tag}</span>
+                        ))}
+                    </div>
+                </div>
+            ))}
+        </div>
+    </section>
+);
 
 /* ─────────────────────────────────────────────
    Component: PersonalWork
