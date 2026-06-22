@@ -215,7 +215,7 @@ const INTERESTS = [
         ],
     },
 ];
-
+ 
 const Interests = () => (
     <section className="interests-section">
         <div className="section-header">
@@ -310,7 +310,6 @@ const About = () => (
         <main className="about-main">
             <Bio />
             <ResumeSection />
-            <Interests />
             <PersonalWork />
         </main>
         <footer className="page-footer">
