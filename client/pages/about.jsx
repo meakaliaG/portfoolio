@@ -312,6 +312,8 @@ const About = () => (
             <ResumeSection />
             <PersonalWork />
         </main>
+        <video id="bgVideo" src="../assets/media/liveMIDI.mp4" preload="true" autoplay loop muted></video>
+
         <footer className="page-footer">
             <span>© Meakalia Gilman</span>
             <a href="/contact" className="footer-cta">Get in touch →</a>
