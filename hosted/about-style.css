@@ -48,11 +48,8 @@ nav a:hover, nav a.active { opacity: 0.45; }
 /* ── Page wrapper ── */
 .about-page { min-height: 100vh; display: flex; flex-direction: column; }
 .about-main  {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    flex: 1;
+    
  }
 
  video#bgVideo {
