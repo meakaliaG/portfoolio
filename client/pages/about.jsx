@@ -33,8 +33,7 @@ const Bio = () => (
                 interaction and identity. My practice spans UI/UX, 3D modelling,
                 graphic design, and research — united by a belief that the best
                 interfaces feel inevitable.
-            </p>
-            <p className="bio-text">
+                <br></br>
                 Based in Rochester, NY. Currently studying Interactive Media Development.
                 I am drawn to work that asks questions first and answers them
                 beautifully.
@@ -131,24 +130,65 @@ const RESUME_ENTRIES = [
     },
 ];
 
-const ResumeSection = () => {
+// pre-.mp4 bckgrd
+// const ResumeSection = () => {
+//     return (
+//         <section className="resume-section">
+//             <div className="section-header">
+//                 <span className="section-label">resume</span>
+//                 <a
+//                     className="resume-download"
+//                     href="/assets/media/MeakaliaGilman_Resume.docx"
+//                     target="_blank"
+//                     rel="noreferrer"
+//                     download
+//                 >
+//                     ↓ Download PDF
+//                 </a>
+//             </div>
+
+            // <div className="resume-grid">
+            //     {RESUME_ENTRIES.map(group => (
+            //         <div key={group.category} className="resume-group">
+            //             <h3 className="resume-category">{group.category}</h3>
+            //             {group.items.map((item, i) => (
+            //                 <div key={i} className="resume-entry">
+            //                     <div className="resume-entry-head">
+            //                         <span className="resume-title">{item.title}</span>
+            //                         {item.year && <span className="resume-year">{item.year}</span>}
+            //                     </div>
+            //                     {item.org && <div className="resume-org">{item.org}</div>}
+            //                     <p className="resume-note">{item.note}</p>
+            //                 </div>
+            //             ))}
+            //         </div>
+            //     ))}
+            // </div>
+//         </section>
+//     );
+// };
+
+const ResumeSection = ({ onToggleMute, muted }) => {
     return (
         <section className="resume-section">
             <div className="section-header">
                 <span className="section-label">resume</span>
-                <a
+                <div className="section-header-actions">
+                    <button className="mute-btn" onClick={onToggleMute}>
+                        {muted ? '♪ unmute video' : '♪  mute video'}
+                    </button>
+                     <a
                     className="resume-download"
                     href="/assets/media/MeakaliaGilman_Resume.docx"
                     target="_blank"
                     rel="noreferrer"
                     download
-                >
-                    ↓ Download PDF
-                </a>
+                    >
+                        ↓ Download Resume
+                    </a>
+                </div>
             </div>
-
-            <div className="resume-grid">
-                {RESUME_ENTRIES.map(group => (
+            <div className="resume-grid"> {RESUME_ENTRIES.map(group => (
                     <div key={group.category} className="resume-group">
                         <h3 className="resume-category">{group.category}</h3>
                         {group.items.map((item, i) => (
@@ -162,8 +202,7 @@ const ResumeSection = () => {
                             </div>
                         ))}
                     </div>
-                ))}
-            </div>
+                ))}</div>
         </section>
     );
 };
@@ -251,16 +290,6 @@ const PERSONAL_WORKS = [
         href:     'assets/media/hula/Hula.pdf',
         featured: true,
     },
-    // Add more personal works here:
-    // {
-    //     type:    'Essay',
-    //     title:   'Your Title Here',
-    //     year:    '2024',
-    //     excerpt: 'Short description.',
-    //     tags:    ['Tag'],
-    //     href:    null,
-    //     featured: false,
-    // },
 ];
 
 const PersonalWorkCard = ({ work }) => {
@@ -304,29 +333,44 @@ const PersonalWork = () => (
 /* ─────────────────────────────────────────────
    Component: About (main)
 ───────────────────────────────────────────── */
-const About = () => (
-    <div className="about-page">
-        <video
-            id="bgVideo"
-            src="../assets/media/liveMIDI.mp4"
-            preload="auto"
-            autoPlay
-            loop
-            muted
-            playsInline   // ← required on iOS/Safari to autoplay
-        />
-        <PageHeader />
-        <main className="about-main">
-            <Bio />
-            <ResumeSection />
-            <PersonalWork />
-        </main>
-        <footer className="page-footer">
-            <span>© Meakalia Gilman</span>
-            <a href="/contact" className="footer-cta">Get in touch →</a>
-        </footer>
-    </div>
-);
+const About = () => {
+    const [muted, setMuted] = useState(true);
+    const videoRef = useRef(null);
+
+    const toggleMute = () => {
+        setMuted(prev => {
+            if (videoRef.current) videoRef.current.muted = !prev;
+            return !prev;
+        });
+    };
+
+    return (
+        <div className="about-page">
+        <div className="video-bg-wrapper">
+            <video
+                ref={videoRef}
+                id="bgVideo"
+                src="/assets/media/liveMIDI.mp4"
+                preload="auto"
+                autoPlay
+                loop
+                muted
+                playsInline
+            />
+        </div>
+            <PageHeader />
+            <main className="about-main">
+                <Bio />
+                <ResumeSection onToggleMute={toggleMute} muted={muted} />
+                <PersonalWork />
+            </main>
+            <footer className="page-footer">
+                <span>© Meakalia Gilman</span>
+                <a href="/contact" className="footer-cta">Get in touch →</a>
+            </footer>
+        </div>
+    );
+};
 
 /* ── Init ── */
 const init = () => {
