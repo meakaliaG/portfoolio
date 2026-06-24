@@ -61,7 +61,7 @@ nav a:hover, nav a.active { opacity: 0.45; }
     height: auto;
     min-height: 100%;
     z-index: -100;
-    background-size: cover;
+    object-fit: cover;
 }
 
 /* ── Shared section utilities ── */

@@ -306,14 +306,21 @@ const PersonalWork = () => (
 ───────────────────────────────────────────── */
 const About = () => (
     <div className="about-page">
+        <video
+            id="bgVideo"
+            src="../assets/media/liveMIDI.mp4"
+            preload="auto"
+            autoPlay
+            loop
+            muted
+            playsInline   // ← required on iOS/Safari to autoplay
+        />
         <PageHeader />
         <main className="about-main">
             <Bio />
             <ResumeSection />
             <PersonalWork />
         </main>
-        <video id="bgVideo" src="../assets/media/liveMIDI.mp4" preload="true" autoplay loop muted></video>
-
         <footer className="page-footer">
             <span>© Meakalia Gilman</span>
             <a href="/contact" className="footer-cta">Get in touch →</a>
