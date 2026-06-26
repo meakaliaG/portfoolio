@@ -35,8 +35,7 @@ const Bio = () => (
                 interfaces feel inevitable.
                 <br></br>
                 Based in Rochester, NY. Currently studying Interactive Media Development.
-                I am drawn to work that asks questions first and answers them
-                beautifully.
+                I am drawn to work that priotitizes intention and prolongs curiosity.
             </p>
             <div className="bio-tags">
                 <span className="bio-tag">UI / UX</span>

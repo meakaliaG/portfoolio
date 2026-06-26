@@ -60,7 +60,7 @@ nav a:hover, nav a.active { opacity: 0.45; }
     height: 100vh;
     z-index: 0;
     pointer-events: none;
-    /* Fade out in the lower third so it doesn't bleed into resume */
+    /* Fade out in the lower third */
     mask-image: linear-gradient(to bottom, black 55%, transparent 90%);
     -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 90%);
 }
@@ -123,6 +123,20 @@ video#bgVideo {
     padding: 5rem 3rem 5rem;
     border-bottom: 1px solid var(--border);
     animation: fadeUp 0.7s 0.1s ease both;
+    background: rgba(255, 229, 228, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+}
+
+.bio-body {
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 229, 228, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 2rem;
+    border-radius: 15px;
 }
 
 
@@ -173,14 +187,6 @@ video#bgVideo {
     opacity: 0.7;
     margin-bottom: 1.2rem;
     max-width: 520px;
-
-    position: relative;
-    z-index: 1;
-    background: rgba(255, 229, 228, 0.6);  /* --blush at 60% opacity */
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    padding: 2rem;
-    border-radius: 5px;
 }
 
 .bio-tags {

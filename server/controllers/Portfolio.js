@@ -69,6 +69,23 @@ const PROJECTS = [
         githubUrl:    'https://github.com/meakaliaG/atlas-of-elasmobranchs.git',
         modelUrl:     null,
     },
+    // {
+    //     slug:         'liveMIDI',
+    //     title:        'Live MIDI',
+    //     year:         '2026',
+    //     type:         'interactive media',
+    //     description:  "My hands are rarely leaving the keyboard to find purpose outside of binary triggers. Well, turns out those switches can be much more engaging. Utilizing MediaPipe's preset hand-tracking gestures to control audio output, the project became a way to make the invisible — all that time, all that sound — visible and physical. Music I'd been passively absorbing became something I could reach out and shape with my hands.",
+    //     role:         'Design & Development',
+    //     tech:         ['TouchDesigner'],
+    //     thumbnailUrl:  null,
+    //     images: [
+    //     ],
+    //     // ─────────────────────────────────────────────────────────
+    //     iframeUrl:    null,
+    //     liveUrl:      null,
+    //     githubUrl:    null,
+    //     modelUrl:     null,
+    // },
     {
         slug:         'DiscoOrgan',
         title:        'Disco Organ',
