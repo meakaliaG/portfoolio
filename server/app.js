@@ -36,11 +36,13 @@ app.use(helmet.contentSecurityPolicy({
         styleSrc:    ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
         styleSrcElem:["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
         fontSrc:     ["'self'", "https://fonts.gstatic.com"],
+        media: ["'self'"],
     }
 }));
+app.use(compression());
 app.use('/assets', express.static(path.resolve(`${__dirname}/../hosted`)));
 // app.use(favicon(`${__dirname}/../hosted/img/favicon.png`));
-app.use(compression());
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
