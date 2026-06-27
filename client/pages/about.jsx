@@ -173,9 +173,9 @@ const ResumeSection = ({ onToggleMute, muted }) => {
             <div className="section-header">
                 <span className="section-label">resume</span>
                 <div className="section-header-actions">
-                    <button className="mute-btn" onClick={onToggleMute}>
+                    {/* <button className="mute-btn" onClick={onToggleMute}>
                         {muted ? '♪ unmute video' : '♪  mute video'}
-                    </button>
+                    </button> */}
                      <a
                     className="resume-download"
                     href="/assets/media/MeakaliaGilman_Resume.docx"
