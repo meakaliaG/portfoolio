@@ -60,8 +60,11 @@ const PROJECTS = [
         tech:         ['React', 'Node.js', 'Express', 'CSS'],
         thumbnailUrl: '/assets/media/elasmo/atlasShark.png',
         images: [
-            { src: '/assets/media/elasmo/atlasShark.png', alt: '3D shark' },
-            { src: '/assets/media/elasmo/atlasTemp.png', alt: 'Info panel' },
+            { src: '/assets/media/elasmo/atlas1.png', alt: '3D shark' },
+            { src: '/assets/media/elasmo/atlas2.png', alt: 'Model and panel view' },
+            { src: '/assets/media/elasmo/atlas3.png', alt: 'Manta model' },
+            { src: '/assets/media/elasmo/atlas4.png', alt: 'Manta underview' },
+
 
         ],
         iframeUrl:    null,
